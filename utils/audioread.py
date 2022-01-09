@@ -1,0 +1,46 @@
+from typing import List, NoReturn
+
+import librosa
+import matplotlib.pyplot as plt
+
+
+def read_file(path_to_file: str):
+    """
+    Function used to read data from the audio file
+
+    :param path_to_file:
+    :return samples:
+    :return sampling_frq:
+    """
+
+    samples, sampling_frq = librosa.load(path_to_file)
+    return samples, sampling_frq
+
+
+def plot_sound(amplitudes: List[float], sampling_frequency: float) -> NoReturn:
+    """
+    Function used to plot the sound in time domain using pyplot module
+
+    :param amplitudes:
+    :param sampling_frequency:
+    :return:
+    """
+    n = len(amplitudes)  # number of samples
+    time_step = 1/sampling_frequency
+    time_domain = [i*time_step for i in range(n)]
+
+    # print(f'Number of samples: {n} and the length of the time_domain: {len(time_domain)}')
+    assert n == len(time_domain), 'Size of time domain array does not match the number of samples'
+
+    plt.plot(time_domain, amplitudes)
+    plt.title('Given audio signal in time domain')
+    plt.xlabel('Time [s]')
+    plt.ylabel('Amplitudes')
+    plt.grid(visible=True)
+    plt.show()
+
+
+if __name__ == '__main__':
+    path = '../test_audio/grilledcheesesandwich.wav'
+    amps, fs = read_file(path)
+    plot_sound(amps, fs)
