@@ -1,8 +1,8 @@
 import numpy as np
-import matplotlib.mlab as mlb
+import scipy.signal as sig
 import matplotlib.pyplot as plt
 
-from utils import audioread
+from utils import audioread, calculations
 
 
 class Spectrogram:
@@ -20,8 +20,17 @@ class Spectrogram:
         self.sampling_rate = fs
 
     def calculate_spectrogram(self):
-        self.spectrogram, self.frqaxis, self.taxis = mlb.specgram(self.data)
+        # window_size = np.ceil(100*self.sampling_rate/1000)  # 100 ms window
+        # step_size = np.ceil(20*self.sampling_rate/1000)  # 20 ms step
+        # n_per_segment = calculations.nextpow2(window_size)
+        # print(f'NperSeg: {n_per_segment}')
+        self.frqaxis, self.taxis, self.spectrogram = sig.spectrogram(x=self.data,
+                                                                     fs=self.sampling_rate)
+        print(f'Input data shape: {np.shape(self.data)}')
+        print(f'Shape (number_of_rows, number_of_columns) of the outcome spectrogram: {np.shape(self.spectrogram)}')
 
+    def normalize_spectrogram(self):
+        self.spectrogram = self.spectrogram / np.max(self.spectrogram)
 
     def plot_spectrogram(self):
         # assert self.spectrogram is None, 'Spectrogram has not been calculated yet'
@@ -38,4 +47,5 @@ if __name__ == '__main__':
     max_t = 4
     spec = Spectrogram(path, max_t)
     spec.calculate_spectrogram()
+    spec.normalize_spectrogram()
     spec.plot_spectrogram()
