@@ -4,16 +4,21 @@ import librosa
 import matplotlib.pyplot as plt
 
 
-def read_file(path_to_file: str):
+def read_file(path_to_file: str, time: float):
     """
     Function used to read data from the audio file
 
     :param path_to_file:
+    :param time:
     :return samples:
     :return sampling_frq:
     """
 
     samples, sampling_frq = librosa.load(path_to_file)
+    max_samples = sampling_frq * time
+
+    if len(samples) > max_samples:
+        samples = samples[max_samples//2:max_samples]
     return samples, sampling_frq
 
 
@@ -42,5 +47,6 @@ def plot_sound(amplitudes: List[float], sampling_frequency: float) -> NoReturn:
 
 if __name__ == '__main__':
     path = '../test_audio/grilledcheesesandwich.wav'
-    amps, fs = read_file(path)
+    t = 2
+    amps, fs = read_file(path, t)
     plot_sound(amps, fs)
