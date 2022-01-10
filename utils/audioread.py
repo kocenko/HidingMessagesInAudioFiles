@@ -1,5 +1,6 @@
-from typing import List, NoReturn
+from typing import NoReturn
 
+import numpy as np
 import librosa
 import matplotlib.pyplot as plt
 
@@ -25,7 +26,7 @@ def read_file(path_to_file: str, time: float):
     return samples, sampling_frq
 
 
-def plot_sound(amplitudes: List[float], sampling_frequency: float) -> NoReturn:
+def plot_sound(amplitudes: np.ndarray, sampling_frequency: float) -> NoReturn:
     """
     Function used to plot the sound in time domain using pyplot module
 

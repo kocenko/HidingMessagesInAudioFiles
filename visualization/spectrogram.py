@@ -1,9 +1,10 @@
 import numpy as np
-import scipy.signal as sig
+import scipy.signal
 import matplotlib.pyplot as plt
 
 from utils import audioread, calculations
-from visualization.single_signal import Signal
+from single_signal import Signal
+from letters.shape import Shape
 
 
 class Spectrogram:
@@ -22,11 +23,11 @@ class Spectrogram:
         step_size = np.ceil(20*self.signal.sampling_rate/1000)  # 20 ms step
         n_per_segment = calculations.nextpow2(window_size)
 
-        self.frqaxis, self.taxis, self.spectrogram = sig.spectrogram(x=self.signal.data,
-                                                                     fs=self.signal.sampling_rate,
-                                                                     nperseg=n_per_segment,
-                                                                     noverlap=window_size-step_size,
-                                                                     window='hamming',)
+        self.frqaxis, self.taxis, self.spectrogram = scipy.signal.spectrogram(x=self.signal.data,
+                                                                              fs=self.signal.sampling_rate,
+                                                                              nperseg=n_per_segment,
+                                                                              noverlap=window_size-step_size,
+                                                                              window='hamming')
         print(f'Input data shape: {np.shape(self.signal.data)}')
         print(f'Shape (number_of_rows, number_of_columns) of the outcome spectrogram: {np.shape(self.spectrogram)}')
 
@@ -52,7 +53,24 @@ if __name__ == '__main__':
     read_samples, read_sr = audioread.read_file(path, max_t)
     sig = Signal(read_samples, read_sr)
 
-    # Creating and plotting spectrogram
+    # Creating and plotting spectrogram before
+    # spec = Spectrogram(sig, max_t)
+    # spec.calculate_spectrogram()
+    # spec.normalize_spectrogram()
+    # spec.plot_spectrogram()
+
+    # Creating shape
+    letter_width = 1
+    letter_length = 5000
+    letter_start = 1
+
+    shp = Shape(letter_width, letter_length, letter_start, sig)
+    shp.create_curve()
+    sig.apply_shape(shp)
+
+    audioread.plot_sound(sig.data, sig.sampling_rate)
+
+    # Creating and plotting spectrogram after
     spec = Spectrogram(sig, max_t)
     spec.calculate_spectrogram()
     spec.normalize_spectrogram()
