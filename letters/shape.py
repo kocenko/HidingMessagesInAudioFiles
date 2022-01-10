@@ -4,26 +4,41 @@ from scipy.signal import chirp
 
 
 class Shape:
-    curve = None
+    figure = None
 
-    def __init__(self, width, length, start, sound):
+    def __init__(self, width, height, start_t, start_f, sound):
         self.width = width  # In sec
-        self.length = length  # In Hz
-        self.start_point = start  # In sec
+        self.height = height  # In Hz
+        self.start_point_t = start_t  # In sec
+        self.start_point_f = start_f  # In Hz
         self.template = sound
 
-    def create_curve(self) -> NoReturn:
+        assert np.ceil(self.template.sampling_rate * (self.start_point_t + self.width)) <= len(self.template.data), \
+            'Cannot create a symbol of given width at given starting point'
+
+        assert np.ceil(self.start_point_f + self.height) <= self.template.sampling_rate / 2, \
+            'Cannot create a symbol of given height at given starting point'
+
+    def create_shape(self):
+        raise NotImplementedError
+
+
+class Curve(Shape):
+    def __init__(self, width, height, start_t, start_f, sound):
+        super().__init__(width, height, start_t, start_f, sound)
+
+    def create_shape(self) -> NoReturn:
         fs = self.template.sampling_rate
         t = np.arange(0, self.width * fs - 1, 1) / fs
 
         # For now in the middle of the range
-        f0 = fs/8
-        f1 = 3*fs/8
+        f0 = self.start_point_f
+        f1 = self.start_point_f + self.height
         t1 = self.width
 
         # Creating chirp signal
-        self.curve = chirp(t=t, f0=f0, f1=f1, t1=t1, method='linear')
+        self.figure = chirp(t=t, f0=f0, f1=f1, t1=t1, method='linear')
 
         # Scaling chirp signal
-        scale = np.mean(np.abs(self.template.data)) / np.mean(np.abs(self.curve))
-        self.curve = self.curve * scale
+        scale = np.mean(np.abs(self.template.data)) / np.mean(np.abs(self.figure))
+        self.figure = self.figure * scale

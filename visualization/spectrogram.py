@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from utils import audioread, calculations
 from single_signal import Signal
-from letters.shape import Shape
+from letters.shape import Curve
 
 
 class Spectrogram:
@@ -30,10 +30,9 @@ class Spectrogram:
                                                                               window='hamming')
 
     def normalize_spectrogram(self):
-        self.spectrogram = self.spectrogram / np.min(self.spectrogram)
+        self.spectrogram = self.spectrogram / np.max(self.spectrogram)
 
     def plot_spectrogram(self):
-        # assert self.spectrogram is None, 'Spectrogram has not been calculated yet'
         plt.pcolormesh(self.taxis, self.frqaxis, self.spectrogram, shading='nearest')
         plt.title('Given audio signal in frequency and time domain')
         plt.xlabel('Time [s]')
@@ -52,11 +51,12 @@ if __name__ == '__main__':
 
     # Creating shape
     letter_width = 0.5
-    letter_length = 500
-    letter_start = 0
+    letter_height = 500
+    letter_start_t = 0
+    letter_start_f = 100
 
-    shp = Shape(letter_width, letter_length, letter_start, sig)
-    shp.create_curve()
+    shp = Curve(letter_width, letter_height, letter_start_t, letter_start_f, sig)
+    shp.create_shape()
     sig.apply_shape(shp)
 
     audioread.plot_sound(sig.data, sig.sampling_rate)

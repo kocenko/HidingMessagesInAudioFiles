@@ -27,12 +27,9 @@ class Signal:
         self._sampling_rate = sr
 
     def apply_shape(self, shape: Shape):
-        if len(self.data) < (shape.start_point + shape.width):
-            raise ValueError('Cannot fit the shape into the signal')
-        else:
-            beg_idx = int(np.ceil(shape.start_point * self._sampling_rate))
-            end_idx = int(np.ceil((shape.start_point + shape.width) * self._sampling_rate)) - 1
+        beg_idx = int(np.ceil(shape.start_point_t * self._sampling_rate))
+        end_idx = int(np.ceil((shape.start_point_t + shape.width) * self._sampling_rate)) - 1
 
-            self.data = np.array(list(self.data[:beg_idx])
-                                 + list(map(add, self.data[beg_idx:end_idx], shape.curve))
-                                 + list(self.data[end_idx:]))
+        self.data = np.array(list(self.data[:beg_idx])
+                             + list(map(add, self.data[beg_idx:end_idx], shape.figure))
+                             + list(self.data[end_idx:]))
