@@ -18,10 +18,10 @@ def read_file(path_to_file: str, time: float):
     max_samples = sampling_frq * time
 
     if len(samples) >= max_samples:
+        # The signal is cropped to the range of [half_the_given_time: given_time]
         samples = samples[max_samples//2:max_samples]
     else:
-        print('Signal is not long enough for the given maximum time value')
-        raise ValueError
+        raise ValueError('Signal is not long enough for the given maximum time value')
     return samples, sampling_frq
 
 
