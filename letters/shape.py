@@ -4,11 +4,11 @@ from scipy.signal import chirp
 
 
 class Shape:
+
     figure = None
 
-    def __init__(self, width, height, start_t, start_f, sound):
+    def __init__(self, sound, start_t, start_f, width):
         self.width = width  # In sec
-        self.height = height  # In Hz
         self.start_point_t = start_t  # In sec
         self.start_point_f = start_f  # In Hz
         self.template = sound
@@ -16,16 +16,18 @@ class Shape:
         assert np.ceil(self.template.sampling_rate * (self.start_point_t + self.width)) <= len(self.template.data), \
             'Cannot create a symbol of given width at given starting point'
 
-        assert np.ceil(self.start_point_f + self.height) <= self.template.sampling_rate / 2, \
-            'Cannot create a symbol of given height at given starting point'
-
     def create_shape(self):
         raise NotImplementedError
 
 
 class Curve(Shape):
-    def __init__(self, width, height, start_t, start_f, sound):
-        super().__init__(width, height, start_t, start_f, sound)
+
+    def __init__(self, sound, start_t, start_f, width, height):
+        super().__init__(sound, start_t, start_f, width)
+        self.height = height
+
+        assert np.ceil(self.start_point_f + self.height) <= self.template.sampling_rate / 2, \
+            'Cannot create a symbol of given height at given starting point'
 
     def create_shape(self) -> NoReturn:
         fs = self.template.sampling_rate

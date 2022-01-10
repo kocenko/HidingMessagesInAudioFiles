@@ -14,8 +14,7 @@ class Spectrogram:
     frqaxis: np.ndarray = None
     spectrogram: np.ndarray = None
 
-    def __init__(self, sound, t):
-        self.max_time = t
+    def __init__(self, sound):
         self.signal = sound
 
     def calculate_spectrogram(self):
@@ -51,18 +50,18 @@ if __name__ == '__main__':
 
     # Creating shape
     letter_width = 0.5
-    letter_height = 500
+    letter_height = 1000
     letter_start_t = 0
     letter_start_f = 100
 
-    shp = Curve(letter_width, letter_height, letter_start_t, letter_start_f, sig)
+    shp = Curve(sig, letter_start_t, letter_start_f, letter_width, letter_height)
     shp.create_shape()
     sig.apply_shape(shp)
 
     audioread.plot_sound(sig.data, sig.sampling_rate)
 
     # Creating and plotting spectrogram after
-    spec = Spectrogram(sig, max_t)
+    spec = Spectrogram(sig)
     spec.calculate_spectrogram()
     spec.normalize_spectrogram()
     spec.plot_spectrogram()
