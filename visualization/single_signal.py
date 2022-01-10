@@ -33,10 +33,6 @@ class Signal:
             beg_idx = int(np.ceil(shape.start_point * self._sampling_rate))
             end_idx = int(np.ceil((shape.start_point + shape.width) * self._sampling_rate)) - 1
 
-            print(f'Slice size ({beg_idx}, {end_idx}): {end_idx-beg_idx+1}, Curve size: {len(shape.curve)}')
-
-            output1 = list(self.data[:beg_idx])
-            output2 = list(map(add, self.data[beg_idx:end_idx], shape.curve))
-            output3 = list(self.data[end_idx:])
-
-            self.data = np.array(output1 + output2 + output3)
+            self.data = np.array(list(self.data[:beg_idx])
+                                 + list(map(add, self.data[beg_idx:end_idx], shape.curve))
+                                 + list(self.data[end_idx:]))

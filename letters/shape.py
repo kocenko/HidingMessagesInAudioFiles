@@ -1,7 +1,6 @@
+from typing import NoReturn
 import numpy as np
 from scipy.signal import chirp
-
-from utils.audioread import plot_sound
 
 
 class Shape:
@@ -13,17 +12,18 @@ class Shape:
         self.start_point = start  # In sec
         self.template = sound
 
-    def create_curve(self):
+    def create_curve(self) -> NoReturn:
         fs = self.template.sampling_rate
         t = np.arange(0, self.width * fs - 1, 1) / fs
 
         # For now in the middle of the range
-        f0 = 1
-        f1 = 15
+        f0 = fs/8
+        f1 = 3*fs/8
         t1 = self.width
 
+        # Creating chirp signal
         self.curve = chirp(t=t, f0=f0, f1=f1, t1=t1, method='linear')
 
-        plot_sound(self.curve, fs)
-
-        print(f'SHAPE --- Curve size: {len(self.curve)}')
+        # Scaling chirp signal
+        scale = np.mean(np.abs(self.template.data)) / np.mean(np.abs(self.curve))
+        self.curve = self.curve * scale
