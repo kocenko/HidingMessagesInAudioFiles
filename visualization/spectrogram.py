@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from utils import audioread, calculations
 from single_signal import Signal
-from letters.shape import Curve, VerticalLine
+from letters.shape import Curve, VerticalLine, HorizontalLine
 
 
 class Spectrogram:
@@ -56,10 +56,13 @@ if __name__ == '__main__':
 
     shp = Curve(sig, letter_start_t, letter_start_f, letter_width, letter_height)
     shp2 = VerticalLine(sig, 0.5, 1100, 0.1, letter_height)
+    shp3 = HorizontalLine(sig, 0.5, 2100, 0.4)
     shp.create_shape()
     shp2.create_shape()
+    shp3.create_shape()
     sig.apply_shape(shp)
     sig.apply_shape(shp2)
+    sig.apply_shape(shp3)
 
     audioread.plot_sound(sig.data, sig.sampling_rate)
 

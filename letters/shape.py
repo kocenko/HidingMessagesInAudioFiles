@@ -76,3 +76,15 @@ class VerticalLine(Shape):
 
         self.figure = noise_signal
         self._scale_figure()
+
+class HorizontalLine(Shape):
+
+    def __init__(self, sound, start_t, start_f, width):
+        super().__init__(sound, start_t, start_f, width)
+
+    def create_shape(self) -> NoReturn:
+        t = self._calculate_t_axis()
+        f0 = self.start_point_f
+
+        self.figure = np.sin(2 * np.pi * f0 * t)
+        self._scale_figure()
