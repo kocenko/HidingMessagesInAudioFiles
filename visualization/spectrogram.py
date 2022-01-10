@@ -19,7 +19,7 @@ class Spectrogram:
 
     def calculate_spectrogram(self):
         window_size = np.ceil(10*self.signal.sampling_rate/1000)  # 10 ms window
-        step_size = np.ceil(2*self.signal.sampling_rate/1000)  # 2 ms step
+        step_size = np.ceil(3*self.signal.sampling_rate/1000)  # 3 ms step
         n_per_segment = calculations.nextpow2(window_size)
 
         self.frqaxis, self.taxis, self.spectrogram = scipy.signal.spectrogram(x=self.signal.data,
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     letter_start_f = 100
 
     shp = Curve(sig, letter_start_t, letter_start_f, letter_width, letter_height)
-    shp2 = VerticalLine(sig, 0.5, 1100, 0.1, letter_height)
+    shp2 = VerticalLine(sig, 0.5, 1100, 0.02, letter_height)
     shp3 = HorizontalLine(sig, 0.5, 2100, 0.4)
     shp.create_shape()
     shp2.create_shape()

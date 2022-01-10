@@ -68,7 +68,7 @@ class VerticalLine(Shape):
         f1 = self.start_point_f + self.height
 
         # Creating noise signal
-        spread = 50  # Experimental value
+        spread = 30  # Experimental value
         noise_signal = 0
         frequency_range = np.arange(f0, f1, self.height/spread)
         for f in frequency_range:
