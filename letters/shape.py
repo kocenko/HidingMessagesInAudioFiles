@@ -77,6 +77,7 @@ class VerticalLine(Shape):
         self.figure = noise_signal
         self._scale_figure()
 
+
 class HorizontalLine(Shape):
 
     def __init__(self, sound, start_t, start_f, width):
