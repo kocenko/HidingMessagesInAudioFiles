@@ -53,11 +53,12 @@ if __name__ == '__main__':
     sig = Signal(read_samples, read_sr)
 
     # Creating shape
-    letter_width = 0.5
-    letter_height = 5000
-    letter_start_t = 0.5
-    letter_start_f = 100
+    letter_width = 0.2
+    letter_height = 3000
+    letter_start_t = 1
+    letter_start_f = 4000
 
+    # Curve(sig, letter_start_t, letter_start_f, letter_width, letter_height)
     letter = Letter(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'A')
     letter.create_shape()
     sig.apply_shape(letter)
