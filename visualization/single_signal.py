@@ -1,5 +1,6 @@
 from operator import add
 import numpy as np
+import soundfile as sf
 
 from letters.shape import Shape
 
@@ -25,6 +26,10 @@ class Signal:
     @sampling_rate.setter
     def sampling_rate(self, sr):
         self._sampling_rate = sr
+
+    def save_signal(self, path: str):
+        sf.write(path, self.data, int(self.sampling_rate), subtype='PCM_24')
+
 
     def apply_shape(self, shape: Shape):
         beg_idx = int(np.ceil(shape.start_point_t * self._sampling_rate))

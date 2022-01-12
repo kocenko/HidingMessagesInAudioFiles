@@ -34,3 +34,5 @@ spec = Spectrogram(sig)
 spec.calculate_spectrogram()
 spec.normalize_spectrogram()
 spec.plot_spectrogram()
+
+sig.save_signal('wynik.wav')
