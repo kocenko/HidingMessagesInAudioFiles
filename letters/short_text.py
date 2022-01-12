@@ -7,6 +7,7 @@ from letters.letter import Letter
 
 class Text(Shape):
 
+    max_number_of_letters: int = 6
     dictionary_path: str
     whole_text: str
     all_letters: List[Letter]
@@ -19,12 +20,14 @@ class Text(Shape):
         self.dictionary_path = dict_path
 
         number_of_letters = len(self.whole_text)
+        if number_of_letters / width > self.max_number_of_letters:
+            raise ValueError('Letters cannot be as densely stacked')
         if number_of_letters:
             for i, sym in enumerate(text):
                 local_width_k = i / number_of_letters
                 self.all_letters.append(Letter(self.template,
-                                               self.start_point_t + local_width_k * self.width,
-                                               self.start_point_f,
+                                               local_width_k * self.width,
+                                               0,
                                                self.width / number_of_letters,
                                                self.height,
                                                sym))
@@ -37,6 +40,7 @@ class Text(Shape):
             # print(f'\n----------------------------\n'
             #       f'CREATING LETTER {letter.symbol}\n')
 
+            letter = self._recalculate_position(letter)
             letter.create_shape()
             self._combine_figures(letter.figure, letter.start_point_t)
 

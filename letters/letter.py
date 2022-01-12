@@ -53,8 +53,8 @@ class Letter(Shape):
     def _recalculate_position(self, new_shape):
         precision = -1.e-9
 
-        print(f'You got into {new_shape.id_name} recalculation\n'
-              f'Position before calc: {new_shape.start_point_t}')
+        # print(f'You got into {new_shape.id_name} recalculation\n'
+        #       f'Position before calc: {new_shape.start_point_t}')
 
         if new_shape.start_point_t < 0:
             raise ValueError('Time placement cannot be negative')
@@ -69,6 +69,6 @@ class Letter(Shape):
         if (self.start_point_f + self.height) - (new_shape.start_point_f + new_shape.height) < precision:
             raise ValueError('Cannot create the shape: placement + width exceeds the maximum size')
 
-        print(f'And after calc: {new_shape.start_point_t}\n')
+        # print(f'And after calc: {new_shape.start_point_t}\n')
 
         return new_shape

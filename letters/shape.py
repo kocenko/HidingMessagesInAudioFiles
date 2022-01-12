@@ -42,8 +42,15 @@ class Shape:
         if fig.size > self.figure.size:
             raise ValueError(f'Combined figure size cannot be bigger than the size of the base figure')
         else:
-            beg_len = int((start_t - self.start_point_t) * self.template.sampling_rate)
-            end_len = int(self.figure.size - (beg_len + fig.size))
+            precision = 1.e-9
+            if start_t < self.start_point_t:
+                raise ValueError('Beginning time of the shape cannot be less than starting point of the base')
+            beg_len = int(np.floor((start_t - self.start_point_t) * self.template.sampling_rate))
+
+            if self.figure.size - (beg_len + fig.size) < precision:
+                end_len = int(abs(np.floor(self.figure.size - (beg_len + fig.size))))
+            else:
+                end_len = int(np.floor(self.figure.size - (beg_len + fig.size)))
 
             beg_array = np.zeros(beg_len)
             end_array = np.zeros(end_len)
