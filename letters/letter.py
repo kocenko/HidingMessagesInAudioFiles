@@ -1,5 +1,4 @@
 from typing import List, NoReturn
-import matplotlib.pyplot as plt
 
 from letters.shape import Shape, Curve, HorizontalLine, VerticalLine
 
@@ -16,13 +15,25 @@ class Letter(Shape):
             self.all_figures.append(Curve(sound, width/2, 0, width/2, height, desc=True))
             self.all_figures.append(HorizontalLine(sound, width/4, height/2, width/2, 0))
             self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
-            self.all_figures.append(VerticalLine(sound, width/2-0.02, 0, 0.02, height))
+        elif symbol == 'B':
+            self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
+            self.all_figures.append(HorizontalLine(sound, 0, 0, width, 0))
+            self.all_figures.append(HorizontalLine(sound, 0, height/2, width, 0))
+            self.all_figures.append(VerticalLine(sound, 0, 0, 0.02, height))
+            self.all_figures.append(VerticalLine(sound, width - 0.02, 0, 0.02, height))
+        elif symbol == 'C':
+            self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
+            self.all_figures.append(HorizontalLine(sound, 0, 0, width, 0))
+            self.all_figures.append(VerticalLine(sound, 0, 0, 0.02, height))
         elif symbol == 'G':
             self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
             self.all_figures.append(HorizontalLine(sound, 0, 0, width, 0))
             self.all_figures.append(HorizontalLine(sound, width/2, height/2, width/2, 0))
             self.all_figures.append(VerticalLine(sound, 0, 0, 0.02, height))
             self.all_figures.append(VerticalLine(sound, width-0.02, 0, 0.02, height/2))
+        elif symbol == 'T':
+            self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
+            self.all_figures.append(VerticalLine(sound, width/2, 0, 0.02, height))
         else:
             raise NotImplementedError
 
@@ -31,9 +42,9 @@ class Letter(Shape):
             shape = self._recalculate_position(shape)
             shape.create_shape()
 
-            plt.plot(shape.figure)
-            plt.title(f'Class: Letter, Method: create_shape, Figure: {i}')
-            plt.show()
+            # plt.plot(shape.figure)
+            # plt.title(f'Class: Letter, Method: create_shape, Figure: {i}')
+            # plt.show()
 
             self._combine_figures(shape.figure, shape.start_point_t)
 
