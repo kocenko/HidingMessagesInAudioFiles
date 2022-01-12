@@ -1,4 +1,5 @@
 from typing import List, NoReturn
+import yaml
 
 from letters.shape import Shape, Curve, HorizontalLine, VerticalLine
 
@@ -6,6 +7,8 @@ from letters.shape import Shape, Curve, HorizontalLine, VerticalLine
 class Letter(Shape):
 
     all_figures: List[Shape]
+    dictionary_path: str = '../letters/dictionary.yaml'
+    dictionary_data = None
 
     def __init__(self, sound, start_t, start_f, width, height, symbol: str):
         super().__init__(sound, start_t, start_f, width, height)
@@ -13,34 +16,44 @@ class Letter(Shape):
         self.all_figures = []
         self.symbol = symbol
 
-        if symbol == 'A':
-            self.all_figures.append(Curve(sound, 0, 0, width/2, height))
-            self.all_figures.append(Curve(sound, width/2, 0, width/2, height, desc=True))
-            self.all_figures.append(HorizontalLine(sound, width/4, height/2, width/2, 0))
-        elif symbol == 'B':
-            self.all_figures.append(VerticalLine(sound, 0, 0, 0.02, height))
-            self.all_figures.append(HorizontalLine(sound, 0, height, width/2, 0))
-            self.all_figures.append(HorizontalLine(sound, 0, 0, width/2, 0))
-            self.all_figures.append(HorizontalLine(sound, 0, height/2, width/2, 0))
-            self.all_figures.append(Curve(sound, width/2, height*3/4, width/2, height/4, desc=True))
-            self.all_figures.append(Curve(sound, width/2, height/2, width/2, height/4))
-            self.all_figures.append(Curve(sound, width/2, height/4, width/2, height/4, desc=True))
-            self.all_figures.append(Curve(sound, width/2, 0, width/2, height/4))
-        elif symbol == 'C':
-            self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
-            self.all_figures.append(HorizontalLine(sound, 0, 0, width, 0))
-            self.all_figures.append(VerticalLine(sound, 0, 0, 0.02, height))
-        elif symbol == 'G':
-            self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
-            self.all_figures.append(HorizontalLine(sound, 0, 0, width, 0))
-            self.all_figures.append(HorizontalLine(sound, width/2, height/2, width/2, 0))
-            self.all_figures.append(VerticalLine(sound, 0, 0, 0.02, height))
-            self.all_figures.append(VerticalLine(sound, width-0.02, 0, 0.02, height/2))
-        elif symbol == 'T':
-            self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
-            self.all_figures.append(VerticalLine(sound, width/2, 0, 0.02, height))
+        with open(self.dictionary_path, "r") as stream:
+            try:
+                self.dictionary_data = yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
+                print(exc)
+
+        if symbol not in self.dictionary_data['All_Letters']:
+            raise NotImplementedError(f"Cannot create '{symbol}' because it is not implemented yet.")
         else:
-            raise NotImplementedError
+            for shape in self.dictionary_data[symbol]:
+                if shape == 'Curve':
+                    for iteration in self.dictionary_data[symbol][shape]:
+                        parameters = self.dictionary_data[symbol][shape][iteration]
+                        print(f'{shape} options: {self.dictionary_data[symbol][shape][iteration]}')
+                        self.all_figures.append(Curve(sound,
+                                                      width * parameters[0],
+                                                      height * parameters[1],
+                                                      width * parameters[2] * 0.95,
+                                                      height * parameters[3],
+                                                      desc=parameters[4]))
+                if shape == 'Horizontal':
+                    for iteration in self.dictionary_data[symbol][shape]:
+                        parameters = self.dictionary_data[symbol][shape][iteration]
+                        print(f'{shape} options: {self.dictionary_data[symbol][shape][iteration]}')
+                        self.all_figures.append(HorizontalLine(sound,
+                                                               width * parameters[0],
+                                                               height * parameters[1],
+                                                               width * parameters[2] * 0.95,
+                                                               height * parameters[3]))
+                if shape == 'Vertical':
+                    for iteration in self.dictionary_data[symbol][shape]:
+                        parameters = self.dictionary_data[symbol][shape][iteration]
+                        print(f'{shape} options: {self.dictionary_data[symbol][shape][iteration]}')
+                        self.all_figures.append(VerticalLine(sound,
+                                                             width * parameters[0],
+                                                             height * parameters[1],
+                                                             width * parameters[2] * 0.95,
+                                                             height * parameters[3]))
 
     def create_shape(self) -> NoReturn:
         for i, shape in enumerate(self.all_figures):

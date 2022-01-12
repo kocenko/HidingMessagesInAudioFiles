@@ -12,12 +12,11 @@ class Text(Shape):
     whole_text: str
     all_letters: List[Letter]
 
-    def __init__(self, sound, start_t, start_f, width, height, text: str, dict_path: str):
+    def __init__(self, sound, start_t, start_f, width, height, text: str):
         super().__init__(sound, start_t, start_f, width, height)
 
         self.all_letters = []
         self.whole_text = text
-        self.dictionary_path = dict_path
 
         number_of_letters = len(self.whole_text)
         if number_of_letters / width > self.max_number_of_letters:

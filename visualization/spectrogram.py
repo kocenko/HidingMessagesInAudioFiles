@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # letter = Letter(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'A')
     # letter.create_shape()
 
-    letter = Text(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'BABCA', 'lolo')
+    letter = Text(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'ABCGT')
     letter.create_shape()
     sig.apply_shape(letter)
 
