@@ -20,7 +20,7 @@ class Text(Shape):
 
         number_of_letters = len(self.whole_text)
         if number_of_letters / width > self.max_number_of_letters:
-            raise ValueError('Letters cannot be as densely stacked')
+            raise ValueError('Letters cannot be as densely packed')
         if number_of_letters:
             for i, sym in enumerate(text):
                 local_width_k = i / number_of_letters
