@@ -59,7 +59,7 @@ if __name__ == '__main__':
     letter_start_f = 4000
 
     # Curve(sig, letter_start_t, letter_start_f, letter_width, letter_height)
-    letter = Letter(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'A')
+    letter = Letter(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'G')
     letter.create_shape()
     sig.apply_shape(letter)
 

@@ -8,16 +8,20 @@ class Shape:
 
     _figure: np.ndarray = None
 
-    def __init__(self, sound, start_t, start_f, width, x_dir: bool = True):
+    def __init__(self, sound, start_t, start_f, width, height):
         self.width = width  # In sec
+        self.height = height  # In Hz
         self.start_point_t = start_t  # In sec
         self.start_point_f = start_f  # In Hz
         self.template = sound
         self.figure: np.ndarray = np.zeros(int(width * sound.sampling_rate))
-        self.x_direction: bool = x_dir
 
         assert np.ceil(self.template.sampling_rate * (self.start_point_t + self.width)) <= len(self.template.data), \
             'Cannot create a symbol of given width at given starting point'
+
+        assert np.ceil(self.start_point_f + self.height) <= self.template.sampling_rate / 2, \
+            'Cannot create a symbol of given height at given starting point'
+        assert self.height >= 0, 'Height of the shape has to be positive'
 
     @property
     def figure(self):
@@ -33,19 +37,32 @@ class Shape:
     def create_shape(self) -> NoReturn:
         raise NotImplementedError
 
-    def _combine_figures(self, fig: np.ndarray, x_dir: bool):
+    def _combine_figures(self, fig: np.ndarray, start_t):
         if fig.size > self.figure.size:
             raise ValueError(f'Combined figure size cannot be bigger than the size of the base figure')
         else:
-            dif_in_len = self.figure.size - fig.size
-            zeros_array = np.zeros(dif_in_len)
+            beg_len = int((start_t - self.start_point_t) * self.template.sampling_rate)
+            end_len = int(self.figure.size - (beg_len + fig.size))
 
-            if x_dir:
-                fig = np.append(fig, zeros_array)
+            beg_array = np.zeros(beg_len)
+            end_array = np.zeros(end_len)
+
+            if not beg_len and end_len:
+                # There is no beginning complement required
+                fig = np.append(fig, end_array)
+
+            elif beg_len and not end_len:
+                # There is no end complement required
+                fig = np.append(beg_array, fig)
+
+            elif beg_len and end_len:
+                # There is a beginning and an end complement required
+                fig = np.append(beg_array, fig)
+                fig = np.append(fig, end_array)
+
             else:
-                fig = np.append(zeros_array, fig)
+                print('Figure combination: Complement is not required')
 
-            print(fig)
             self.figure = np.array(list(map(add, self.figure, fig)))
 
     def _scale_figure(self) -> NoReturn:
@@ -57,21 +74,15 @@ class Shape:
 
     def _calculate_t_axis(self):
         fs = self.template.sampling_rate
-        t = np.arange(0, self.width * fs - 1, 1) / fs
+        t = np.arange(0, self.width * fs, 1) / fs
         return t
 
 
 class Curve(Shape):
 
-    def __init__(self, sound, start_t, start_f, width, height, x_dir: bool = True, desc: bool = False):
-        super().__init__(sound, start_t, start_f, width, x_dir)
-
-        self.height = height
+    def __init__(self, sound, start_t, start_f, width, height, desc: bool = False):
+        super().__init__(sound, start_t, start_f, width, height)
         self.descending = desc
-
-        assert np.ceil(self.start_point_f + self.height) <= self.template.sampling_rate / 2, \
-            'Cannot create a symbol of given height at given starting point'
-        assert self.height > 0, 'Height of the shape has to be positive'
 
     def create_shape(self) -> NoReturn:
         t = self._calculate_t_axis()
@@ -80,9 +91,7 @@ class Curve(Shape):
               f'start_t: {self.start_point_t} [s]\n'
               f'start_f: {self.start_point_f} [Hz]\n'
               f'width: {self.width} [s]\n'
-              f'height: {self.height} [Hz]\n'
-              f'x_dir: {self.x_direction}\n'
-              f'from right: {self.x_direction}\n')
+              f'height: {self.height} [Hz]\n')
 
         f0 = self.start_point_f
         f1 = self.start_point_f + self.height
@@ -93,11 +102,6 @@ class Curve(Shape):
 
         t1 = self.width
 
-        print(f'Chirp parameters:\n'
-              f'Starting frq: {f0}\n'
-              f'Ending frq: {f1}\n'
-              f'Duration: {t1}\n')
-
         # Creating chirp signal
         self.figure = chirp(t, f0, t1, f1, method='linear')
         self._scale_figure()
@@ -105,14 +109,8 @@ class Curve(Shape):
 
 class VerticalLine(Shape):
 
-    def __init__(self, sound, start_t, start_f, width, height, x_dir: bool = True, y_dir: bool = True):
-        super().__init__(sound, start_t, start_f, width, x_dir)
-        self.height = height
-        self.y_direction = y_dir
-
-        assert np.ceil(self.start_point_f + self.height) <= self.template.sampling_rate / 2, \
-            'Cannot create a symbol of given height at given starting point'
-        assert self.height > 0, 'Height of the shape has to be positive'
+    def __init__(self, sound, start_t, start_f, width, height):
+        super().__init__(sound, start_t, start_f, width, height)
 
     def create_shape(self) -> NoReturn:
         t = self._calculate_t_axis()
@@ -125,16 +123,14 @@ class VerticalLine(Shape):
               f'start_t: {self.start_point_t} [s]\n'
               f'start_f: {self.start_point_f} [Hz]\n'
               f'width: {self.width} [s]\n'
-              f'height: {self.height} [Hz]\n'
-              f'x_dir: {self.x_direction}\n'
-              f'y_dir: {self.y_direction}\n')
+              f'height: {self.height} [Hz]\n')
 
         # Creating noise signal
         spread = 50  # Experimental value
-        noise_signal = 0
+        noise_signal = np.zeros(t.size)
         frequency_range = np.arange(f0, f1, self.height/spread)
         for f in frequency_range:
-            noise_signal = noise_signal + np.sin(2 * np.pi * f * t)
+            noise_signal = np.array(list(map(add, noise_signal, np.sin(2 * np.pi * f * t))))
 
         self.figure = noise_signal
         self._scale_figure()
@@ -142,8 +138,8 @@ class VerticalLine(Shape):
 
 class HorizontalLine(Shape):
 
-    def __init__(self, sound, start_t, start_f, width, x_dir: bool = True):
-        super().__init__(sound, start_t, start_f, width, x_dir)
+    def __init__(self, sound, start_t, start_f, width, height):
+        super().__init__(sound, start_t, start_f, width, height)
 
     def create_shape(self) -> NoReturn:
         t = self._calculate_t_axis()
@@ -152,8 +148,7 @@ class HorizontalLine(Shape):
         print(f'Creating horizontal line at parameters\n'
               f'start_t: {self.start_point_t} [s]\n'
               f'start_f: {self.start_point_f} [Hz]\n'
-              f'width: {self.width} [s]\n'
-              f'x_dir: {self.x_direction}\n')
+              f'width: {self.width} [s]\n')
 
         self.figure = np.sin(2 * np.pi * f0 * t)
         self._scale_figure()
