@@ -18,11 +18,14 @@ class Letter(Shape):
             self.all_figures.append(Curve(sound, width/2, 0, width/2, height, desc=True))
             self.all_figures.append(HorizontalLine(sound, width/4, height/2, width/2, 0))
         elif symbol == 'B':
-            self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
-            self.all_figures.append(HorizontalLine(sound, 0, 0, width, 0))
-            self.all_figures.append(HorizontalLine(sound, 0, height/2, width, 0))
             self.all_figures.append(VerticalLine(sound, 0, 0, 0.02, height))
-            self.all_figures.append(VerticalLine(sound, width - 0.02, 0, 0.02, height))
+            self.all_figures.append(HorizontalLine(sound, 0, height, width/2, 0))
+            self.all_figures.append(HorizontalLine(sound, 0, 0, width/2, 0))
+            self.all_figures.append(HorizontalLine(sound, 0, height/2, width/2, 0))
+            self.all_figures.append(Curve(sound, width/2, height*3/4, width/2, height/4, desc=True))
+            self.all_figures.append(Curve(sound, width/2, height/2, width/2, height/4))
+            self.all_figures.append(Curve(sound, width/2, height/4, width/2, height/4, desc=True))
+            self.all_figures.append(Curve(sound, width/2, 0, width/2, height/4))
         elif symbol == 'C':
             self.all_figures.append(HorizontalLine(sound, 0, height, width, 0))
             self.all_figures.append(HorizontalLine(sound, 0, 0, width, 0))

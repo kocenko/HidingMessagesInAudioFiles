@@ -47,14 +47,14 @@ class Spectrogram:
 if __name__ == '__main__':
     # Initial parameters
     path = '../test_audio/grilledcheesesandwich.wav'
-    max_t = 8
+    max_t = 12
 
     # Creating signal
     read_samples, read_sr = audioread.read_file(path, max_t)
     sig = Signal(read_samples, read_sr)
 
     # Creating shape
-    letter_width = 1
+    letter_width = 3
     letter_height = 3000
     letter_start_t = 0.5
     letter_start_f = 4000
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     # letter = Letter(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'A')
     # letter.create_shape()
 
-    letter = Text(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'AAAAAA', 'lolo')
+    letter = Text(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'BABCA', 'lolo')
     letter.create_shape()
     sig.apply_shape(letter)
 

@@ -69,7 +69,8 @@ class Shape:
                 fig = np.append(fig, end_array)
 
             else:
-                print('Figure combination: Complement is not required')
+                pass
+                # print('Figure combination: Complement is not required')
 
             self.figure = np.array(list(map(add, self.figure, fig)))
 
