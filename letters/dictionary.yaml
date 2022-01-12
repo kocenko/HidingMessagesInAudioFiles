@@ -1,4 +1,4 @@
-All_Letters: [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, Q, P, R, S, T, U, V, W, X, Y, Z]
+All_Letters: [A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, Q, P, R, S, T, U, V, W, X, Y, Z, '*']
 A:
   Curve:
     1: [0, 0, 0.5, 1, False]
@@ -170,3 +170,9 @@ Z:
     2: [0, 0, 1, 0]
   Curve:
     1: [0, 0, 1, 1, False]
+'*':
+  Horizontal:
+    1: [0.25, 0.5, 0.5, 0]
+  Curve:
+    1: [0.25, 0.25, 0.5, 0.5, True]
+    2: [0.25, 0.25, 0.5, 0.5, False]

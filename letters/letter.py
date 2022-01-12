@@ -7,7 +7,7 @@ from letters.shape import Shape, Curve, HorizontalLine, VerticalLine
 class Letter(Shape):
 
     all_figures: List[Shape]
-    dictionary_path: str = '../letters/dictionary.yaml'
+    dictionary_path: str = './letters/dictionary.yaml'
     dictionary_data = None
 
     def __init__(self, sound, start_t, start_f, width, height, symbol: str):
