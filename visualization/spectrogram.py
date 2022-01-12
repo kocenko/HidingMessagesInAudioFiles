@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 
 from utils import audioread, calculations
 from single_signal import Signal
-from letters.letter import Letter
+from letters.short_text import Text
+# from letters.letter import Letter
 
 
 class Spectrogram:
@@ -53,13 +54,16 @@ if __name__ == '__main__':
     sig = Signal(read_samples, read_sr)
 
     # Creating shape
-    letter_width = 0.2
+    letter_width = 1
     letter_height = 3000
-    letter_start_t = 1
+    letter_start_t = 0.5
     letter_start_f = 4000
 
     # Curve(sig, letter_start_t, letter_start_f, letter_width, letter_height)
-    letter = Letter(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'A')
+    # letter = Letter(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'A')
+    # letter.create_shape()
+
+    letter = Text(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'ABG', 'lolo')
     letter.create_shape()
     sig.apply_shape(letter)
 

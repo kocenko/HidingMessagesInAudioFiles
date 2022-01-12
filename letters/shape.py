@@ -7,6 +7,7 @@ from scipy.signal import chirp
 class Shape:
 
     _figure: np.ndarray = None
+    id_name: str = None
 
     def __init__(self, sound, start_t, start_f, width, height):
         self.width = width  # In sec
@@ -83,15 +84,16 @@ class Curve(Shape):
     def __init__(self, sound, start_t, start_f, width, height, desc: bool = False):
         super().__init__(sound, start_t, start_f, width, height)
         self.descending = desc
+        self.id_name = 'Curve'
 
     def create_shape(self) -> NoReturn:
         t = self._calculate_t_axis()
 
-        print(f'Creating curve at parameters\n'
-              f'start_t: {self.start_point_t} [s]\n'
-              f'start_f: {self.start_point_f} [Hz]\n'
-              f'width: {self.width} [s]\n'
-              f'height: {self.height} [Hz]\n')
+        # print(f'Creating curve at parameters\n'
+        #       f'start_t: {self.start_point_t} [s]\n'
+        #       f'start_f: {self.start_point_f} [Hz]\n'
+        #       f'width: {self.width} [s]\n'
+        #       f'height: {self.height} [Hz]\n')
 
         f0 = self.start_point_f
         f1 = self.start_point_f + self.height
@@ -111,6 +113,7 @@ class VerticalLine(Shape):
 
     def __init__(self, sound, start_t, start_f, width, height):
         super().__init__(sound, start_t, start_f, width, height)
+        self.id_name = 'Vline'
 
     def create_shape(self) -> NoReturn:
         t = self._calculate_t_axis()
@@ -119,11 +122,11 @@ class VerticalLine(Shape):
         f0 = self.start_point_f
         f1 = self.start_point_f + self.height
 
-        print(f'Creating vertical line at parameters\n'
-              f'start_t: {self.start_point_t} [s]\n'
-              f'start_f: {self.start_point_f} [Hz]\n'
-              f'width: {self.width} [s]\n'
-              f'height: {self.height} [Hz]\n')
+        # print(f'Creating vertical line at parameters\n'
+        #       f'start_t: {self.start_point_t} [s]\n'
+        #       f'start_f: {self.start_point_f} [Hz]\n'
+        #       f'width: {self.width} [s]\n'
+        #       f'height: {self.height} [Hz]\n')
 
         # Creating noise signal
         spread = 50  # Experimental value
@@ -140,15 +143,16 @@ class HorizontalLine(Shape):
 
     def __init__(self, sound, start_t, start_f, width, height):
         super().__init__(sound, start_t, start_f, width, height)
+        self.id_name = 'Hline'
 
     def create_shape(self) -> NoReturn:
         t = self._calculate_t_axis()
         f0 = self.start_point_f
 
-        print(f'Creating horizontal line at parameters\n'
-              f'start_t: {self.start_point_t} [s]\n'
-              f'start_f: {self.start_point_f} [Hz]\n'
-              f'width: {self.width} [s]\n')
+        # print(f'Creating horizontal line at parameters\n'
+        #       f'start_t: {self.start_point_t} [s]\n'
+        #       f'start_f: {self.start_point_f} [Hz]\n'
+        #       f'width: {self.width} [s]\n')
 
         self.figure = np.sin(2 * np.pi * f0 * t)
         self._scale_figure()
