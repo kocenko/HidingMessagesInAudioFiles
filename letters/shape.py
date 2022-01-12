@@ -76,9 +76,9 @@ class Shape:
 
     def _scale_figure(self) -> NoReturn:
         scale = 1
-        # divisor = np.mean(np.abs(self.figure))
-        # if divisor:
-        #     scale = np.mean(np.abs(self.template.data)) / divisor
+        divisor = np.mean(np.abs(self.figure))
+        if divisor:
+            scale = np.mean(np.abs(self.template.data)) / divisor
         self.figure = self.figure * scale
 
     def _calculate_t_axis(self):
