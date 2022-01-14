@@ -5,22 +5,22 @@ from visualization.spectrogram import Spectrogram
 
 # Initial parameters
 path = './test_audio/grilledcheesesandwich.wav'
-max_t = 20
+max_t = 40
 
 # Creating signal
 read_samples, read_sr = audioread.read_file(path, max_t)
 sig = Signal(read_samples, read_sr)
 
 # Creating shape
-letter_width = 8
-letter_height = 2500
+letter_width = max_t/5
+letter_height = 1000
 letter_start_t = 0.5
-letter_start_f = 500
+letter_start_f = 8000
 
 # Curve(sig, letter_start_t, letter_start_f, letter_width, letter_height)
 # letter = Letter(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'A')
 # letter.create_shape()
-letter = Text(sig, letter_start_t, letter_start_f+3000, letter_width, letter_height, 'HASLO')
+letter = Text(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'ZYCIE BEZ')
 letter2 = Text(sig, letter_start_t, letter_start_f, letter_width, letter_height, 'NIC')
 letter.create_shape()
 letter2.create_shape()

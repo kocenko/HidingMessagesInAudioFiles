@@ -23,13 +23,14 @@ class Text(Shape):
             raise ValueError('Letters cannot be as densely packed')
         if number_of_letters:
             for i, sym in enumerate(text):
-                local_width_k = i / number_of_letters
-                self.all_letters.append(Letter(self.template,
-                                               local_width_k * self.width,
-                                               0,
-                                               self.width / number_of_letters,
-                                               self.height,
-                                               sym))
+                if sym != ' ':
+                    local_width_k = i / number_of_letters
+                    self.all_letters.append(Letter(self.template,
+                                                   local_width_k * self.width,
+                                                   0,
+                                                   self.width / number_of_letters,
+                                                   self.height,
+                                                   sym))
         else:
             raise ValueError('Cannot show empty string')
 
