@@ -29,7 +29,6 @@ class Letter(Shape):
                 if shape == 'Curve':
                     for iteration in self.dictionary_data[symbol][shape]:
                         parameters = self.dictionary_data[symbol][shape][iteration]
-                        print(f'{shape} options: {self.dictionary_data[symbol][shape][iteration]}')
                         self.all_figures.append(Curve(sound,
                                                       width * parameters[0],
                                                       height * parameters[1],

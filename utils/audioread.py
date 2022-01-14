@@ -16,13 +16,16 @@ def read_file(path_to_file: str, time: float):
     """
 
     samples, sampling_frq = librosa.load(path_to_file)
-    max_samples = sampling_frq * time
 
-    if len(samples) >= max_samples:
-        # The signal is cropped to the range of [0: given_time]
-        samples = samples[0:max_samples]
+    if time < 0:
+        print('Max time not given (or negative). Loading entire audio file.')
     else:
-        raise ValueError('Signal is not long enough for the given maximum time value')
+        max_samples = sampling_frq * time
+        if len(samples) >= max_samples:
+            # The signal is cropped to the range of [0: given_time]
+            samples = samples[0:max_samples]
+        else:
+            raise ValueError('Signal is not long enough for the given maximum time value')
     return samples, sampling_frq
 
 
