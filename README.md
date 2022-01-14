@@ -4,6 +4,7 @@
 * [Idea](#idea)
 * [Modules](#modules)
 * [Setup](#setup)
+* [Usage](#usage)
 
 ## Idea
 The main idea of the project is to create a program which encrypts a message inside an audio file.
