@@ -102,7 +102,6 @@ if __name__ == '__main__':
                         '--max_time',
                         help='Time at which an audio file should be sliced to.',
                         action='store',
-                        nargs=1,
                         type=float,
                         default=-1)
     parser.add_argument('-o',
@@ -123,7 +122,6 @@ if __name__ == '__main__':
                         '--save',
                         action='store',
                         help='Saving path to which an audio file with added text should be saved to',
-                        nargs=1,
                         type=str)
 
     args = parser.parse_args()
