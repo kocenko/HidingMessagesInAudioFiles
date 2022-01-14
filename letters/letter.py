@@ -121,9 +121,9 @@ class Letter(Shape):
         ValueError
             if frequency starting point of the new shape is negative
         ValueError
-            if time starting point after recalculation is to big for new figure to fit the range
+            if time starting point after recalculation is to big for new figure to fit in the range
         ValueError
-            if frequency starting point after recalculation is to big for new figure to fit the range
+            if frequency starting point after recalculation is to big for new figure to fit in the range
         """
 
         precision = -1.e-9

@@ -82,6 +82,9 @@ class Shape:
         else:
             self._figure = new_fig
 
+    def create_shape(self) -> NoReturn:
+        raise NotImplementedError
+
     def _combine_figures(self, fig: np.ndarray, start_t) -> NoReturn:
         """Combining base figure with the given one at the given starting point
 
