@@ -1,5 +1,6 @@
-from typing import List, NoReturn
+from typing import NoReturn
 
+import numpy as np
 import librosa
 import matplotlib.pyplot as plt
 
@@ -15,17 +16,20 @@ def read_file(path_to_file: str, time: float):
     """
 
     samples, sampling_frq = librosa.load(path_to_file)
-    max_samples = sampling_frq * time
 
-    if len(samples) >= max_samples:
-        # The signal is cropped to the range of [half_the_given_time: given_time]
-        samples = samples[max_samples//2:max_samples]
+    if time < 0:
+        print('Max time not given (or negative). Loading entire audio file.')
     else:
-        raise ValueError('Signal is not long enough for the given maximum time value')
+        max_samples = sampling_frq * time
+        if len(samples) >= max_samples:
+            # The signal is cropped to the range of [0: given_time]
+            samples = samples[0:max_samples]
+        else:
+            raise ValueError('Signal is not long enough for the given maximum time value')
     return samples, sampling_frq
 
 
-def plot_sound(amplitudes: List[float], sampling_frequency: float) -> NoReturn:
+def plot_sound(amplitudes: np.ndarray, sampling_frequency: float) -> NoReturn:
     """
     Function used to plot the sound in time domain using pyplot module
 
