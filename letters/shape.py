@@ -151,7 +151,7 @@ class Shape:
         scale = 1  # Not scaling at all
         divisor = np.mean(np.abs(self.figure))
         if divisor:
-            scale = np.mean(np.abs(self.template.data)) / divisor
+            scale = np.max(np.abs(self.template.data)) / divisor
         self.figure = self.figure * scale
 
     def _calculate_t_axis(self):
@@ -174,7 +174,9 @@ class Curve(Shape):
     Attributes
     ----------
     descending : bool
-        a bool representing a logical value of fact of descent of the line
+        a bool representing a logical value of the fact of the descent of the line
+    round : bool
+        a bool representing a logical value of the fact of the roundness of the line
 
     Methods
     -------
@@ -182,7 +184,7 @@ class Curve(Shape):
         changes figure from the zero array to the array with created signal
     """
 
-    def __init__(self, sound, start_t, start_f, width, height, desc: bool = False):
+    def __init__(self, sound, start_t, start_f, width, height, desc: bool = False, rnd: str = 'l'):
         """
         Parameters
         ----------
@@ -197,11 +199,14 @@ class Curve(Shape):
         height
             a floating point number representing the height of the figure [in Hz]
         desc : bool
-            a bool representing a logical value of fact of descent of the line
+            a bool representing a logical value of the fact of the descent of the line
+        rnd : str
+            a str representing a type of roundness
         """
 
         super().__init__(sound, start_t, start_f, width, height)
         self.descending = desc
+        self.round = rnd
         self.id_name = 'Curve'
 
     def create_shape(self) -> NoReturn:
@@ -220,8 +225,18 @@ class Curve(Shape):
             f0 = f1
             f1 = self.start_point_f
 
+        # Choosing type of curve
+        if self.round == 't' and self.descending:
+            method = 'quadratic'
+        elif self.round == 't' and not self.descending:
+            method = 'logarithmic'
+        elif self.round == 'b':
+            method = 'hyperbolic'
+        else:
+            method = 'linear'
+
         # Creating chirp signal
-        self.figure = chirp(t, f0, t1, f1, method='logarithmic')
+        self.figure = chirp(t, f0, t1, f1, method=method)
         self._scale_figure()
 
 

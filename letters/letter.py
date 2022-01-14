@@ -73,16 +73,17 @@ class Letter(Shape):
                         self.all_figures.append(Curve(sound,
                                                       width * parameters[0],
                                                       height * parameters[1],
-                                                      width * parameters[2] * 0.95,
+                                                      width * parameters[2],
                                                       height * parameters[3],
-                                                      desc=parameters[4]))
+                                                      desc=parameters[4],
+                                                      rnd=parameters[5]))
                 if shape == 'Horizontal':
                     for iteration in self.dictionary_data[symbol][shape]:
                         parameters = self.dictionary_data[symbol][shape][iteration]
                         self.all_figures.append(HorizontalLine(sound,
                                                                width * parameters[0],
                                                                height * parameters[1],
-                                                               width * parameters[2] * 0.95,
+                                                               width * parameters[2],
                                                                height * parameters[3]))
                 if shape == 'Vertical':
                     for iteration in self.dictionary_data[symbol][shape]:
@@ -90,7 +91,7 @@ class Letter(Shape):
                         self.all_figures.append(VerticalLine(sound,
                                                              width * parameters[0],
                                                              height * parameters[1],
-                                                             width * parameters[2] * 0.95,
+                                                             width * parameters[2],
                                                              height * parameters[3]))
 
     def create_shape(self) -> NoReturn:

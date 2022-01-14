@@ -13,6 +13,8 @@ class Text(Shape):
         integer value representing a number of letters that can be packed in certain range
     all_letters : List[Letter]
         list of objects of Letter class each representing single letter
+    space_usage
+        constant value representing how much space will be taken from the space reserved for the letter [in percent]
     whole_text : str
         a string to be created on the sound file
 
@@ -51,6 +53,7 @@ class Text(Shape):
 
         super().__init__(sound, start_t, start_f, width, height)
 
+        self.space_usage = 80/100
         self.max_number_of_letters: int = 6
         self.all_letters: List[Letter] = []
         self.whole_text: str = text
@@ -65,7 +68,7 @@ class Text(Shape):
                     self.all_letters.append(Letter(self.template,
                                                    local_width_k * self.width,
                                                    0,
-                                                   self.width / number_of_letters,
+                                                   self.width * self.space_usage / number_of_letters,
                                                    self.height,
                                                    sym))
         else:
