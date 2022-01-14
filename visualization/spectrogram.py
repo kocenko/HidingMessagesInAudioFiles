@@ -25,6 +25,8 @@ class Spectrogram:
     -------
     calculate_spectrogram
         calculating spectrogram parameters and spectrogram itself
+    normalize_spectrogram
+        normalizing values of the spectrogram so they are in the range of [0, 1]
     plot_spectrogram
         plotting spectrogram and labeling axes
     """
@@ -54,6 +56,15 @@ class Spectrogram:
                                                                               nperseg=n_per_segment,
                                                                               noverlap=window_size-step_size,
                                                                               window='hamming')
+
+    def normalize_spectrogram(self):
+        """Normalizing spectrogram"""
+
+        divisor = np.max(self.spectrogram)
+        if divisor:
+            self.spectrogram = self.spectrogram / divisor
+        else:
+            print('Maximum value of the spectrogram is equal to 0. Cannot normalize')
 
     def plot_spectrogram(self) -> NoReturn:
         """Plotting created spectrogram"""

@@ -28,7 +28,7 @@ def read_file(path_to_file: str, time: float):
     if time < 0:
         print('Max time not given (or negative). Loading entire audio file.')
     else:
-        max_samples = sampling_frq * time
+        max_samples = int(sampling_frq * time)
         if len(samples) >= max_samples:
             # The signal is cropped to the range of [0: given_time]
             samples = samples[0:max_samples]
