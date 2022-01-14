@@ -39,7 +39,6 @@ def main(arguments: argparse.Namespace):
         print('Displaying the spectrogram of the audio after calculations ...')
         spec = Spectrogram(sig)
         spec.calculate_spectrogram()
-        spec.normalize_spectrogram()
         spec.plot_spectrogram()
 
     if args_dict['save']:

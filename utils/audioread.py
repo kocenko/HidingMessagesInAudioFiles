@@ -20,7 +20,7 @@ def read_file(path_to_file: str, time: float):
     samples
         samples of audio data
     sampling_frq
-        self explanatory
+        self-explanatory
     """
 
     samples, sampling_frq = librosa.load(path_to_file)
@@ -45,7 +45,7 @@ def plot_sound(amplitudes: np.ndarray, sampling_frequency: float) -> NoReturn:
     amplitudes : np.ndarray
         samples of the audio file
     sampling_frequency : float
-        self explanatory
+        self-explanatory
 
     Raises
     ------
