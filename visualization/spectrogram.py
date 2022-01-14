@@ -13,7 +13,7 @@ class Spectrogram:
     Attributes
     ----------
     signal : Signal
-        a signal for which the spectrogram will be calculated
+        a signal used to calculate the spectrogram
     taxis
         time axis returned from spectrogram calculations
     frqaxis
@@ -24,9 +24,9 @@ class Spectrogram:
     Methods
     -------
     calculate_spectrogram
-        calculating spectrogram parameters and spectrogram itself
+        calculating spectrogram parameters and the spectrogram itself
     normalize_spectrogram
-        normalizing values of the spectrogram so they are in the range of [0, 1]
+        normalizing the values of the spectrogram so they are in the range of [0, 1]
     plot_spectrogram
         plotting spectrogram and labeling axes
     """

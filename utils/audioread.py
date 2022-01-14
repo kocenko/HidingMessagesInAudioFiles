@@ -38,7 +38,7 @@ def read_file(path_to_file: str, time: float):
 
 
 def plot_sound(amplitudes: np.ndarray, sampling_frequency: float) -> NoReturn:
-    """Function used to plot the sound in time domain using pyplot module
+    """Function used to plot the sound in the time domain using pyplot module
 
     Parameters
     ----------
@@ -50,14 +50,14 @@ def plot_sound(amplitudes: np.ndarray, sampling_frequency: float) -> NoReturn:
     Raises
     ------
     AssertionError
-        Size of time domain array does not match the number of samples
+        Size of the time domain array does not match the number of samples
     """
 
     n = len(amplitudes)  # number of samples
     time_step = 1/sampling_frequency
     time_domain = [i*time_step for i in range(n)]
 
-    assert n == len(time_domain), 'Size of time domain array does not match the number of samples'
+    assert n == len(time_domain), 'Size of the time domain array does not match the number of samples'
 
     plt.plot(time_domain, amplitudes)
     plt.title('Given audio signal in time domain')

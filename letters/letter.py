@@ -12,7 +12,7 @@ class Letter(Shape):
     all_figures : List[Shape]
         a list of objects of the Shape class, each representing single shape
     dictionary_path : str
-        a path to the .YAML file which consist of the parameters for each shape of the letter
+        a path to the .YAML file which consists of the parameters for each shape of the letter
     dictionary_data : dict
         data returned by the yaml.safe_load() function
     symbol : str

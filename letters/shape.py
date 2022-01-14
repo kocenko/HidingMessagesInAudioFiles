@@ -174,9 +174,9 @@ class Curve(Shape):
     Attributes
     ----------
     descending : bool
-        a bool representing a logical value of the fact of the descent of the line
+        a bool representing a logical value of the descent of the line
     round : bool
-        a bool representing a logical value of the fact of the roundness of the line
+        a bool representing a logical value of the roundness of the line
 
     Methods
     -------
