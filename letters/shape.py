@@ -151,7 +151,7 @@ class Shape:
         scale = 1  # Not scaling at all
         divisor = np.mean(np.abs(self.figure))
         if divisor:
-            scale = np.max(np.abs(self.template.data)) / divisor
+            scale = np.mean(np.abs(self.template.data)) / divisor
         self.figure = self.figure * scale
 
     def _calculate_t_axis(self):
