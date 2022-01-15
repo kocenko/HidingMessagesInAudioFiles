@@ -61,7 +61,7 @@ class Shape:
         self.start_point_t = start_t  # In sec
         self.start_point_f = start_f  # In Hz
         self.template = sound
-        self._figure: np.ndarray = np.zeros(int(width * sound.sampling_rate))
+        self._figure: np.ndarray = np.zeros(int(np.ceil(width * sound.sampling_rate)))
 
         assert np.ceil(self.template.sampling_rate * (self.start_point_t + self.width)) <= len(self.template.data), \
             'Cannot create a symbol of given width at given starting point'
