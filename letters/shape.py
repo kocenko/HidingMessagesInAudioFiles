@@ -53,6 +53,10 @@ class Shape:
         -----
         AssertionError
             If the parameters of the position and the size cause figure not to fit in range
+        ValueError
+            If the length of the file is too short for given placement parameters
+        ValueError
+            If the given frequency placement exceeds the maximum possible frequency
         """
 
         self.id_name: str = ''
@@ -63,12 +67,14 @@ class Shape:
         self.template = sound
         self._figure: np.ndarray = np.zeros(int(np.ceil(width * sound.sampling_rate)))
 
-        assert np.ceil(self.template.sampling_rate * (self.start_point_t + self.width)) <= len(self.template.data), \
-            'Cannot create a symbol of given width at given starting point'
+        if np.ceil(self.template.sampling_rate * (self.start_point_t + self.width)) > len(self.template.data):
+            raise ValueError(f'Cannot create a symbol of given width at given starting point\n'
+                             f'Length of the file: {self.template.sampling_rate * len(self.template.data)} [s]')
         assert self.width >= 0, 'Width of the shape has to be positive'
 
-        assert np.ceil(self.start_point_f + self.height) <= self.template.sampling_rate / 2, \
-            'Cannot create a symbol of given height at given starting point'
+        if np.ceil(self.start_point_f + self.height) > self.template.sampling_rate / 2:
+            raise ValueError(f'Cannot create a symbol of given height at given starting point\n'
+                             f'Maximum frequency: {self.template.sampling_rate / 2} [Hz]')
         assert self.height >= 0, 'Height of the shape has to be positive'
 
     @property
