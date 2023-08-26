@@ -1,4 +1,4 @@
-# Concealing messages in audio files
+# Hiding text messages in audio files
 
 ## Table of contents
 * [Idea](#idea)
@@ -7,17 +7,10 @@
 * [Usage](#usage)
 
 ## Idea
-The main idea of the project is to create a program which encrypts a message inside an audio file.
+The main idea behind this project is to add on top of the input audio file a layer of signals, which when displayed on a spectrogram, reveal a hidden message.
 
 ### How does it work?
-When we transform a signal from the time domain to the frequency domain, we can sometimes see some patterns.
-I wanted to exploit this unique feature of a human brain and cause a signal to look like a very well-known pattern to almost all people: latin alphabet.
-
-For example, when we look at the chirp signal, we will notice that this rising in frequency signal, when
-transformed to the spectrogram, looks like a diagonal line. If we transform simple sine wave, we get straight horizontal line and when we transform noise in range of some frequencies in a very short time then we get a vertical line.
-
-Using only those shapes: vertical line, horizontal line and ascending or descending line we can create letters.
-We just need to create signals of certain parameters and combine them to get a whole text.
+Different types of signals, when visualized using a spectrogram, show different shapes and patterns. A regular sine wave looks like a horizontal line, uniformally distributed noise resembles a vertical line, whereas a chirp signal draws a diagonal line. By combining different signals of different lengths and frequencies, we can construct shapes, such as letters. They can be used to create a text that we can hide among other sounds of the input audio file.
 
 ## Modules
 This project would not work without:
